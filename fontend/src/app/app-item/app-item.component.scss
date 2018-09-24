@@ -1,0 +1,29 @@
+.app{
+    width: 16rem;
+    margin: 2rem 1.5rem;
+    .cus-btn{
+        margin-top: .5rem;
+    }
+    .status{
+        &.on::before{
+            margin-right: .2rem;
+            width:.5rem;
+            height: 1rem;
+            content:'';
+            display:inline-block;
+            background: green
+        }
+        &.off::before{
+            margin-right: .2rem;
+            width:.5rem;
+            height: 1rem;
+            content:'';
+            display:inline-block;
+            background: red
+        }
+    }
+    .title{
+        border-bottom: 1px solid gray;
+        padding-bottom: .5rem;
+    }
+}

@@ -1,7 +1,34 @@
 <div class="app">
-  <div class="title">
-    {{name}}
-  </div>
-  <div class="body"></div>
-  <div class="footer"></div>
+  <mdb-card >
+      <div *ngIf="itemData.status; then thenBlock else elseBlock">
+      
+      </div>
+        <ng-template #thenBlock>
+            <mdb-card-header class="success-color lighten-1 white-text">
+                {{itemData.name}}
+            </mdb-card-header>
+        </ng-template>
+        <ng-template #elseBlock>
+            <mdb-card-header class="deep-orange lighten-1 white-text">
+                {{itemData.name}}
+            </mdb-card-header>
+        </ng-template>
+    
+
+    <mdb-card-body>
+      <!--Title-->
+      <!--Text-->
+     
+      <mdb-card-text>Process is {{itemData.status? 'Active' : 'Inactive'}}<br/>Cpu usage : {{itemData.cpu || "0%"}} <br/>
+        Mem usage : {{itemData.mem || '0%'}}</mdb-card-text>
+      <div  class="btn-group btn-group-sm flex-wrap">
+          <ng-container *ngFor='let op of itemData.operations' >
+              <button mdbBtn class="btn btn-primary waves-light cus-btn"  (click)='onClick(op)' mdbWavesEffect>{{op.commandName}}</button>
+          </ng-container>
+         
+      </div>
+     
+    </mdb-card-body>
+  </mdb-card>
+  
 </div>

@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-interface operator{
-  commandID?:string
-  commandName?:string
-  url?:string
-}
+import { Component, OnInit, Input } from '@angular/core';
+import { IAppItem, operator } from '../app.component';
+import { DataserviceService } from '../dataservice.service';
+
 @Component({
   selector: 'app-app-item',
   templateUrl: './app-item.component.html',
@@ -11,16 +9,17 @@ interface operator{
 })
 export class AppItemComponent implements OnInit {
 
-  constructor() {
+  constructor(private ds:DataserviceService) {
     
   }
-  id:string
-  name:string
-  status:string
-  operation: operator[]
+  @Input("itemData")
+  itemData:IAppItem
   ngOnInit() {
-    this.name="TEST"
-    this.operation=[{commandID:"1",commandName:"启动"}]
+    this.ds.execCommand(this.itemData.id,'status').subscribe(r=>{r.trim()==""?this.itemData.status=false:this.itemData.status=true})
+  }
+  onClick(op:operator){
+    this.ds.execCommand(this.itemData.id,op.commandID)
+    
   }
 
 }

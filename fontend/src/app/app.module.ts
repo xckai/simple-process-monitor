@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { BarComponent } from './bar/bar.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AppItemComponent } from './app-item/app-item.component';
+import { DataserviceService } from './dataservice.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,8 @@ import { AppItemComponent } from './app-item/app-item.component';
   ],
   imports: [
     BrowserModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
