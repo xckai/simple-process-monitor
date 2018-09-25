@@ -9,7 +9,7 @@ export interface operator{
 export interface IAppItem{
   name?:string
   id?:string
-  status?:boolean
+  isActive?:boolean
   cpu?:number|string
   mem?:number|string
   operations?:operator[]

@@ -1,0 +1,17 @@
+port : 8081
+version : v1
+apps : 
+  - id : chrome
+    name : Chrome
+    isAvtive : 'pidof chrome'
+    cpu : "ps -o %cpu -p `pidof chrome`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    mem : "ps -o %mem -p `pidof chrome`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    operations :
+      - commandID : close
+        commandName : Stop Chrome
+  - id : chrome2
+    name : Chrome
+    isAvtive : 'pidof chrome'
+    cpu : "ps -o %cpu -p `pidof chrome`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    mem : "ps -o %mem -p `pidof chrome`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+  

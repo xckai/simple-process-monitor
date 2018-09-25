@@ -2,6 +2,7 @@ var express=require("express");
 var log4js =require('log4js');
 var _ = require("lodash");
 var path = require('path');
+YAML = require('yamljs');
 var exec = require('child_process').exec;
 var app= express();
 var PORT=8080;
@@ -22,7 +23,7 @@ var config_file="./config.json";
 var config={apps:[]}
 //loading config file
 try{
-    config=JSON.parse(fs.readFileSync(path.resolve(config_file)));
+    config = YAML.load('config.yml');
     if(config.logLevel){
         logger.setLevel(config.logLevel)
     }
@@ -40,8 +41,15 @@ app.use(express.static("dist"))
 app.get("/api/apps",(req,res)=>{
     res.type("json")
     res.end(JSON.stringify(_.map(config.apps,(m)=>{
-        return m
+        return {
+            id:m.id,
+            name:m.name,
+            operations:_.map(m.operations,c=>{return {commandID:c.commandID,commandName:c.commandName}})
+        }
     })))
+})
+app.post("/api/exec/:appID/:commandID",(req,res)=>{
+
 })
 app.get("/api/status/:app",(req,res)=>{
     var app=req.params.app;
