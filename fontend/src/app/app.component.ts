@@ -4,7 +4,6 @@ import { DataserviceService } from './dataservice.service';
 export interface operator{
   commandID?:string
   commandName?:string
-  url?:string
 }
 export interface IAppItem{
   name?:string
@@ -12,6 +11,7 @@ export interface IAppItem{
   isActive?:boolean
   cpu?:number|string
   mem?:number|string
+  webui?:string
   operations?:operator[]
 }
 @Component({

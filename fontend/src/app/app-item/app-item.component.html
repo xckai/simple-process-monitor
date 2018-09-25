@@ -1,6 +1,6 @@
 <div class="app">
   <mdb-card >
-      <div *ngIf="itemData.status; then thenBlock else elseBlock">
+      <div *ngIf="itemData.isActive; then thenBlock else elseBlock">
       
       </div>
         <ng-template #thenBlock>
@@ -19,14 +19,21 @@
       <!--Title-->
       <!--Text-->
      
-      <mdb-card-text>Process is {{itemData.status? 'Active' : 'Inactive'}}<br/>Cpu usage : {{itemData.cpu || "0%"}} <br/>
+      <mdb-card-text>Process is {{itemData.isActive? 'Active' : 'Inactive'}}<br/>Cpu usage : {{itemData.cpu || "0%"}} <br/>
         Mem usage : {{itemData.mem || '0%'}}</mdb-card-text>
-      <div  class="btn-group btn-group-sm flex-wrap">
-          <ng-container *ngFor='let op of itemData.operations' >
-              <button mdbBtn class="btn btn-primary waves-light cus-btn"  (click)='onClick(op)' mdbWavesEffect>{{op.commandName}}</button>
-          </ng-container>
-         
+      <div class="d-flex justify-content-between flex-wrap">
+        <div  class="btn-group btn-group-sm flex-wrap d-flex">
+            <ng-container *ngFor='let op of itemData.operations' >
+                <button mdbBtn class="btn btn-primary waves-light cus-btn"    (click)='onClick(op)' mdbWavesEffect>{{op.commandName}}</button>
+            </ng-container>
+        </div>
+        <div  class="btn-group btn-group-sm flex-wrap d-flex">
+            <ng-container *ngIf='itemData.webui'>
+            <button mdbBtn class="btn btn-primary waves-light cus-btn"  (click)='onWebUI(itemData.webui)' mdbWavesEffect><i class="fa fa-share" aria-hidden="true"></i> Web UI</button>
+        </ng-container>
+        </div>
       </div>
+      
      
     </mdb-card-body>
   </mdb-card>

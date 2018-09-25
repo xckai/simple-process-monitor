@@ -15,7 +15,7 @@ export class AppItemComponent implements OnInit {
   @Input("itemData")
   itemData:IAppItem
   ngOnInit() {
-    this.ds.execCommand(this.itemData.id,'status').subscribe(r=>{r.trim()==""?this.itemData.isActive=false:this.itemData.isActive=true})
+    this.ds.execCommand(this.itemData.id,'status').subscribe(r=>{r=="0"?this.itemData.isActive=false:this.itemData.isActive=true})
   }
   onClick(op:operator){
     this.ds.execCommand(this.itemData.id,op.commandID)
