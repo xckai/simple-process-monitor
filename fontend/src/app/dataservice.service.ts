@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IAppItem } from './app.component';
-import { Observable, of } from '../../node_modules/rxjs';
+import { Observable, of,interval } from '../../node_modules/rxjs';
 const apps = [{
   name: "rsync", id: 'ss', webui:'s',operations: [{ commandID: '1', commandName: "Start" }, 
     { commandID: '1', commandName: "Stop" }, 
@@ -13,16 +13,26 @@ const apps = [{
 })
 export class DataserviceService {
 
-  constructor(private http: HttpClient) { }
-  getApps$(): Observable<IAppItem[]> {
+  constructor(private http: HttpClient) { 
+    this.heartBeatInterval=15000
+    this.heartBeatBus=interval(this.heartBeatInterval)
+  }
+  heartBeatInterval:number
+  heartBeatBus:Observable<number>
+  getApps$(): Observable<any> {
 
-    return of(apps)
+    return  this.http.get('/api/apps')
   }
   getCommandResult$(id, commandId): Observable<any> {
     return of("")
   }
-  execCommand(id, commandId, args?): Observable<string> {
-    console.log(id, commandId)
-    return of("12")
+  execCommand(id, commandId, args?): Observable<any> {
+    return  this.http.post('/api/exec/',{appID:id,commandID:commandId,args})
+  }
+  execStatusCommand(id,commandId,args?):Observable<any>{
+      return  this.http.post('/api/exec/',{appID:id,commandID:commandId,args})
+  }
+  getHeartBeatEvent(){
+    return this.heartBeatBus
   }
 }

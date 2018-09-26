@@ -1,17 +1,63 @@
-port : 8081
+port : 8080
 version : v1
 apps : 
   - id : chrome
     name : Chrome
-    isAvtive : 'pidof chrome'
+    isActive : 'pidof chrome'
     cpu : "ps -o %cpu -p `pidof chrome`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
     mem : "ps -o %mem -p `pidof chrome`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    webui : "haha"
     operations :
       - commandID : close
         commandName : Stop Chrome
-  - id : chrome2
-    name : Chrome
-    isAvtive : 'pidof chrome'
-    cpu : "ps -o %cpu -p `pidof chrome`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
-    mem : "ps -o %mem -p `pidof chrome`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
-  
+  - id : nginx
+    name : Nginx
+    isActive : 'pidof nginx'
+    cpu : "ps -o %cpu -p `pidof nginx`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    mem : "ps -o %mem -p `pidof nginx`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    operations :
+      - commandID : stop
+        commandName : Stop
+        command : 'sudo service nginx stop'
+      - commandID : start
+        commandName : Start
+        command : 'sudo service nginx start'
+  - id : sync
+    name : Resillo Sync
+    isActive : 'pidof rslsync'
+    cpu : "ps -o %cpu -p `pidof rslsync`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    mem : "ps -o %mem -p `pidof rslsync`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    webui : "http://{hostname}:9002"
+    operations :
+      - commandID : stop
+        commandName : Stop
+        command : 'sudo service nginx stop'
+      - commandID : start
+        commandName : Start
+        command : 'sudo service nginx start'
+  - id : aria
+    name : Aria Download
+    isActive : 'pidof aria'
+    cpu : "ps -o %cpu -p `pidof aria`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    mem : "ps -o %mem -p `pidof aria`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    webui : "http://{hostname}:8001"
+    operations :
+      - commandID : stop
+        commandName : Stop
+        command : 'sudo pgrep aria |xargs kill -9'
+      - commandID : start
+        commandName : Start
+        command : 'aria2c -D --conf-path=/home/pi/.aria2/aria2.conf'
+  - id : pihole
+    name : Pi-Hole DNS Server
+    isActive : 'pidof pihole'
+    cpu : "ps -o %cpu -p `pidof aria`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    mem : "ps -o %mem -p `pidof aria`| awk 'NR!=1{ print }'| awk 'BEGIN{total=0}{total+=$1}END{print total}'"
+    webui : "http://{hostname}:9003"
+    operations :
+      - commandID : stop
+        commandName : Stop
+        command : 'sudo pgrep aria |xargs kill -9'
+      - commandID : start
+        commandName : Start
+        command : 'aria2c -D --conf-path=/home/pi/.aria2/aria2.conf'

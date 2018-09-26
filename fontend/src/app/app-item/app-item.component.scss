@@ -1,8 +1,23 @@
 .app{
-    width: 16rem;
+    min-width: 18rem;
     margin: 2rem 1.5rem;
+    .rotating{
+        -webkit-animation:spin 1s linear infinite;
+        -moz-animation:spin 1s linear infinite;
+        animation:spin 1s linear infinite;
+    }
     .cus-btn{
         margin-bottom: .5rem;
+    }
+    .cus-icon{
+        float: right;
+        font-size: 120%;
+        margin-top: .1rem;
+    }
+    .webui-btn{
+        border-radius: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
     .status{
         &.on::before{
@@ -26,4 +41,21 @@
         border-bottom: 1px solid gray;
         padding-bottom: .5rem;
     }
+    .card-body{
+        position: relative;
+    }
+    .processInfo{
+        padding:.5rem;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top:0;
+        background: rgba(0,0,0,.8);
+        color:white;
+        font-size: 70%;
+        z-index: 100000;
+    }
 }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

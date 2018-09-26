@@ -1,7 +1,7 @@
 var express=require("express");
 var log4js =require('log4js');
 var _ = require("lodash");
-var path = require('path');
+var bodyParser = require('body-parser')
 YAML = require('yamljs');
 var exec = require('child_process').exec;
 var app= express();
@@ -37,20 +37,64 @@ catch (error){
 app.listen(PORT,'0.0.0.0',()=>{
     logger.info("服务器监听端口："+PORT)
 })
-app.use(express.static("dist"))
+app.use(express.static("fontend"))
+app.use(bodyParser.json())
 app.get("/api/apps",(req,res)=>{
     res.type("json")
     res.end(JSON.stringify(_.map(config.apps,(m)=>{
         return {
             id:m.id,
             name:m.name,
+            webui:m.webui,
             operations:_.map(m.operations,c=>{return {commandID:c.commandID,commandName:c.commandName}})
         }
     })))
 })
-app.post("/api/exec/:appID/:commandID",(req,res)=>{
-
+app.post("/api/exec/:appID/:commandID/:args",(req,res)=>{
+   execHandler(req.params,req,res)
 })
+app.post("/api/exec/:appID/:commandID",(req,res)=>{
+    execHandler(req.params,req,res)
+})
+app.post("/api/exec/",(req,res)=>{
+    execHandler(req.body,req,res)
+})
+function execHandler(options,req,res){
+    let appID=options.appID
+    let commandID=options.commandID
+    let app=_.find(config.apps,{id:appID})
+    let command=''
+    if(_.indexOf(['isActive','mem','cpu'],commandID)!= -1){
+        command=_.get(app,commandID)
+       
+    }else{
+        let operator = _.find(_.get(app,'operations'),{commandID})
+        command=_.get(operator,"command")
+    }
+    try{
+        if(command){
+           exec(command,{encoding: 'utf-8'},(err,out)=>{
+               if(err){
+                   logger.error("BASH ERROR",app,_.toString(err))
+                   res.status(500).send({
+                        id:appID,code:1,result:_.toString(err)
+                   })
+               }else{
+                res.status(200).send({id:appID,result:out,code:0})
+               }
+           })
+        }else{
+            res.status(500).send({id:appID,result:'Command not found: '+appID+"  commandID:"+commandID,code:1})
+            logger.error("应用未配置",appID,commandID)
+        }
+    }catch(error){
+        logger.error("BASH ERROR",app,_.toString(err))
+                   res.status(500).send({
+                        id:appID,code:1,result:_.toString(err)
+                   })
+    }
+}
+
 app.get("/api/status/:app",(req,res)=>{
     var app=req.params.app;
     var app_config=_.find(config.apps,{id:app})
@@ -66,7 +110,7 @@ app.get("/api/status/:app",(req,res)=>{
 
         })
     }else{
-        res.status(500).send({id:app,error:'应用不存在',code:0})
+        res.status(500).send({id:app,error:'应用不存在:'+app,code:0})
         logger.error("应用未配置:"+app)
     }
 })

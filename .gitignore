@@ -1,2 +1,4 @@
 node_modules
 fontend/node_modules
+dist
+*.tar

@@ -1,0 +1,26 @@
+{
+  "name": "simple-process-monitor",
+  "version": "1.0.0",
+  "description": "> A simple process monitor for PI ### Main function 1. user could config bash command to check some process's status (on/off) 2. tragger some bash command (start a service or a job) 3. an pi-app dashboard",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp  build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xckai/simple-process-monitor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xckai/simple-process-monitor/issues"
+  },
+  "homepage": "https://github.com/xckai/simple-process-monitor#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-gzip": "^1.4.2",
+    "gulp-run": "^1.7.1",
+    "gulp-tar": "^2.1.0",
+    "run-sequence": "^2.2.1"
+  }
+}
