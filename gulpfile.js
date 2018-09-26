@@ -12,8 +12,9 @@ gulp.task("build-fontend",function(){
     return run('npm run  build ',{cwd:path.resolve("./","fontend"),verbosity:3}).exec()
 })
 gulp.task('tar', () =>
-    gulp.src('dist/*')
+    gulp.src('dist/**/*')
         .pipe(tar(`simple-process-monitor-${config.version}.tar`))
+        .pipe(gzip())
         .pipe(gulp.dest('./'))
 );
 gulp.task("clean",()=>{
